@@ -244,7 +244,7 @@ export default {
         });
       });
       */
- /*var that = this;
+ var that = this;
     axios
       .all([
         axios.get(popularM),
@@ -252,8 +252,7 @@ export default {
         axios.get(moviesDaTren),
         axios.get(moviesHRated),
       ])
-      .then(
-        axios.spread((d, d1, d2, d3) => {
+      .then(axios.spread((d, d1, d2, d3) => {
           (that.data = d1.data.results),
             that.$store.commit("fillMovies", this.data),
             (that.data1 = d1.data.results),
@@ -263,7 +262,7 @@ export default {
             (that.data3 = d3.data.results),
             that.$store.commit("fillMovies", this.data3);
         })
-      );*/
+      );
     } catch (msg) {}
     
    
