@@ -89,7 +89,6 @@
             :title="el.original_title"
             :poster="urlImg + el.poster_path"
             :vote="el.vote_average"
-            
           />
         </router-link>
       </div>
@@ -102,10 +101,11 @@
       :dots="false"
       :slidesToShow="4"
       :slidesToScroll="3"
-      v-if="data4.length > 0"
-      :responsive="respon" kp
+      v-if="data3.length > 0"
+      :responsive="respon"
+      kp
     >
-      <div v-for="(el, index) in data4" :key="index" id="divFro">
+      <div v-for="(el, index) in data3" :key="index" id="divFro">
         <router-link :to="'details/' + el.id">
           <movie
             :res="el"
@@ -139,38 +139,35 @@ export default {
       data1: [],
       data2: [],
       data3: [],
-      data4: [],
       datax: [],
       urlImg: "https://www.themoviedb.org/t/p/w220_and_h330_face",
       urlImg2: "https://image.tmdb.org/t/p/w500",
-        respon: [
-          {
-            breakpoint: 600,
-            settings: {
-              slidesToShow: 1,
-              slidesToScroll: 1,
-              centerMode: false,
-            },
+      respon: [
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            centerMode: false,
           },
-          {
-            breakpoint: 1200,
-            settings: {
-              slidesToShow: 3,
-              slidesToScroll: 2,
-              centerMode: false,
-            },
-          }, 
-          {
-            breakpoint: 880,
-            settings: {
-              slidesToShow: 2,
-              slidesToScroll: 1,
-              centerMode: false,
-            },
-            
-          }
-        ],
-      
+        },
+        {
+          breakpoint: 1200,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 2,
+            centerMode: false,
+          },
+        },
+        {
+          breakpoint: 880,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            centerMode: false,
+          },
+        },
+      ],
     };
   },
   computed: {
@@ -195,8 +192,18 @@ export default {
       var url = "https://api.themoviedb.org/3/";
       var popularM =
         url + "discover/movie?sort_by=popularity.desc&api_key=" + key;
+      var moviesHRated =
+        url +
+        "discover/movie/?certification_country=US&certification=R&sort_by=vote_average.desc&api_key=" +
+        key;
+      var moviesInT =
+        url +
+        "discover/movie?primary_release_date.gte=2014-09-15&primary_release_date.lte=2014-10-22&api_key=" +
+        key;
+      var moviesDaTren =
+        "https://api.themoviedb.org/3/trending/movie/day?api_key=" + key;
       //most popular movies
-      axios
+    /*  axios
         .get(popularM)
         .then((res) => {
           this.data = res.data.results;
@@ -205,35 +212,24 @@ export default {
         .catch((er) => {
           console.log(er);
         });
-
       //movies in theatres:
       ///discover/movie?primary_release_date.gte=2014-09-15&primary_release_date.lte=2014-10-22
-      var moviesInT =
-        url +
-        "discover/movie?primary_release_date.gte=2014-09-15&primary_release_date.lte=2014-10-22&api_key=" +
-        key;
       axios.get(moviesInT).then((res) => {
         this.data1 = res.data.results;
         this.$store.commit("fillMovies", this.data1);
       });
       //Daily Trending
       //https://api.themoviedb.org/3/trending/movie/day?api_key=###
-      var moviesDaTren =
-        "https://api.themoviedb.org/3/trending/movie/day?api_key=" + key;
+
       axios.get(moviesDaTren).then((res) => {
         this.data2 = res.data.results;
         this.$store.commit("fillMovies", this.data2);
       });
-
       //highest rated movies
       ///discover/movie/?certification_country=US&certification=R&sort_by=vote_average.desc
-      var moviesHRated =
-        url +
-        "discover/movie/?certification_country=US&certification=R&sort_by=vote_average.desc&api_key=" +
-        key;
       axios.get(moviesHRated).then((res) => {
-        this.data4 = res.data.results;
-        this.$store.commit("fillMovies", this.data4);
+        this.data3 = res.data.results;
+        this.$store.commit("fillMovies", this.data3);
       });
 
       //movies genre :
@@ -247,8 +243,30 @@ export default {
           this.$store.commit("fillMovies", this.datax);
         });
       });
+      */
+ /*var that = this;
+    axios
+      .all([
+        axios.get(popularM),
+        axios.get(moviesInT),
+        axios.get(moviesDaTren),
+        axios.get(moviesHRated),
+      ])
+      .then(
+        axios.spread((d, d1, d2, d3) => {
+          (that.data = d1.data.results),
+            that.$store.commit("fillMovies", this.data),
+            (that.data1 = d1.data.results),
+            that.$store.commit("fillMovies", this.data1),
+            (that.data2 = d2.data.results),
+            that.$store.commit("fillMovies", this.data2),
+            (that.data3 = d3.data.results),
+            that.$store.commit("fillMovies", this.data3);
+        })
+      );*/
     } catch (msg) {}
-
+    
+   
     //key : ed645b563b4ed1422cca9c06f85b0e40
     //https://api.themoviedb.org/3/movie/76341?api_key=
     //search : https://api.themoviedb.org/3/search/movie?api_key=ed645b563b4ed1422cca9c06f85b0e40&query=a+quiet+place
@@ -262,10 +280,10 @@ export default {
 a {
   text-decoration: none;
 }
-h5{
+h5 {
   font-style: italic;
 }
 .h5color {
-color:#e4980a;
+  color: #e4980a;
 }
 </style>
