@@ -72,6 +72,27 @@
         </router-link>
       </div>
     </VueSlickCarousel>
+      <!--************************ -->
+    <h5 class="h5color">Daily Trending :</h5>
+    <VueSlickCarousel
+      :arrows="true"
+      :dots="false"
+      :slidesToShow="4"
+      :slidesToScroll="3"
+      v-if="data2.length > 0"
+      :responsive="respon"
+    >
+      <div v-for="(el, index) in data2" :key="index" id="divFro">
+        <router-link :to="'details/' + el.id">
+          <movie
+            :res="el"
+            :title="el.original_title"
+            :poster="urlImg + el.poster_path"
+            :vote="el.vote_average"
+          />
+        </router-link>
+      </div>
+    </VueSlickCarousel>
     <!--************************ -->
     <h5 class="h5color">highest rated movies :</h5>
     <VueSlickCarousel
@@ -94,27 +115,7 @@
         </router-link>
       </div>
     </VueSlickCarousel>
-    <!--************************ -->
-    <h5 class="h5color">Daily Trending :</h5>
-    <VueSlickCarousel
-      :arrows="true"
-      :dots="false"
-      :slidesToShow="4"
-      :slidesToScroll="3"
-      v-if="data2.length > 0"
-      :responsive="respon"
-    >
-      <div v-for="(el, index) in data2" :key="index" id="divFro">
-        <router-link :to="'details/' + el.id">
-          <movie
-            :res="el"
-            :title="el.original_title"
-            :poster="urlImg + el.poster_path"
-            :vote="el.vote_average"
-          />
-        </router-link>
-      </div>
-    </VueSlickCarousel>
+  
 
     
   </div>
@@ -252,7 +253,9 @@ export default {
         axios.get(moviesInT),
         axios.get(moviesDaTren),
         axios.get(moviesHRated),
-      ])
+      ], {
+        Headers:{'Access-Control-Allow-Origin':'*'}
+      })
       .then(axios.spread((d, d1, d2, d3) => {
           (that.data = d1.data.results),
             that.$store.commit("fillMovies", this.data),
