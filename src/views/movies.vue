@@ -72,7 +72,7 @@
         </router-link>
       </div>
     </VueSlickCarousel>
-      <!--************************ -->
+    <!--************************ -->
     <h5 class="h5color">Daily Trending :</h5>
     <VueSlickCarousel
       :arrows="true"
@@ -115,9 +115,6 @@
         </router-link>
       </div>
     </VueSlickCarousel>
-  
-
-    
   </div>
 </template>
 
@@ -205,7 +202,7 @@ export default {
       var moviesDaTren =
         "https://api.themoviedb.org/3/trending/movie/day?api_key=" + key;
       //most popular movies
-    /*  axios
+      /*  axios
         .get(popularM)
         .then((res) => {
           this.data = res.data.results;
@@ -233,7 +230,7 @@ export default {
         this.data3 = res.data.results;
         this.$store.commit("fillMovies", this.data3);
       });
-
+*/
       //movies genre :
       var url2 =
         "https://api.themoviedb.org/3/discover/movie?api_key=" +
@@ -245,31 +242,34 @@ export default {
           this.$store.commit("fillMovies", this.datax);
         });
       });
-      */
- var that = this;
-    axios
-      .all([
-        axios.get(popularM),
-        axios.get(moviesInT),
-        axios.get(moviesDaTren),
-        axios.get(moviesHRated),
-      ], {
-        Headers:{'Access-Control-Allow-Origin':'*'}
-      })
-      .then(axios.spread((d, d1, d2, d3) => {
-          (that.data = d1.data.results),
-            that.$store.commit("fillMovies", this.data),
-            (that.data1 = d1.data.results),
-            that.$store.commit("fillMovies", this.data1),
-            (that.data2 = d2.data.results),
-            that.$store.commit("fillMovies", this.data2),
-            (that.data3 = d3.data.results),
-            that.$store.commit("fillMovies", this.data3);
-        })
-      );
+      
+      var that = this;
+      axios
+        .all(
+          [
+            axios.get(popularM),
+            axios.get(moviesInT),
+            axios.get(moviesDaTren),
+            axios.get(moviesHRated),
+          ],
+          {
+            Headers: { "Access-Control-Allow-Origin": "*" },
+          }
+        )
+        .then(
+          axios.spread((d, d1, d2, d3) => {
+            (that.data = d1.data.results),
+              that.$store.commit("fillMovies", this.data),
+              (that.data1 = d1.data.results),
+              that.$store.commit("fillMovies", this.data1),
+              (that.data2 = d2.data.results),
+              that.$store.commit("fillMovies", this.data2),
+              (that.data3 = d3.data.results),
+              that.$store.commit("fillMovies", this.data3);
+          })
+        );
     } catch (msg) {}
-    
-   
+
     //key : ed645b563b4ed1422cca9c06f85b0e40
     //https://api.themoviedb.org/3/movie/76341?api_key=
     //search : https://api.themoviedb.org/3/search/movie?api_key=ed645b563b4ed1422cca9c06f85b0e40&query=a+quiet+place
